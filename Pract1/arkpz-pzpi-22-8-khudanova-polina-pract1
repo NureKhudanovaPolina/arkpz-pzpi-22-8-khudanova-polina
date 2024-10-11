@@ -1,1 +1,147 @@
+﻿Міністерство освіти і науки України
+Харківський національний університет радіоелектроніки
+Кафедра ПІ
 
+
+
+
+Звіт з практичного заняття №1
+з дисципліни «Аналіз та рефакторинг коду»
+
+
+
+
+
+
+Виконала: 
+ст. гр. ПЗПІ-22-8
+Худанова П.А.
+
+Перевірив: 
+ст. викладач кат. ПІ 
+Сокорчук І.П
+
+
+Харків 2024
+
+Мета: Навчитися рефакторингу програмного коду, закріпити основні правила оформлення коду.
+Завдання: Обрати мову програмування для прикладів коду. Створити презентацію на тему «Правила оформлення програмного коду».
+Хід роботи: Було обрано мову програмування Crystal. У презентації (Додаток Б) наведено основні рекомендації щодо оформлення програмного коду з описами, а також приклад коду (Додаток А) до і після застосування цих рекомендацій.
+1. Рекомендація: Розбивайте великі методи на дрібні.
+Опис: Якщо метод робить кілька дій, його важче зрозуміти і змінювати. Коли ви розбиваєте його на менші частини, кожна частина виконує одну конкретну задачу.
+
+1 # Поганий приклад (великий метод, що виконує декілька завдань)
+2 def process_order(order_id : Int32)
+3  puts "Processing order #{order_id}"
+4 payment = PaymentService.new(order_id)
+5  payment.process
+6  send_email_to_customer(order_id)
+7  update_inventory(order_id)
+8 end
+9
+10 # Гарний приклад (розділення логіки на окремі методи)
+11 def process_order(order_id : Int32)
+12  puts "Processing order #{order_id}"
+13  process_payment(order_id)
+14  notify_customer(order_id)
+15  update_inventory(order_id)
+16 end
+
+def process_payment(order_id : Int32)
+  payment = PaymentService.new(order_id)
+  payment.process
+end
+
+def notify_customer(order_id : Int32)
+  send_email_to_customer(order_id)
+end
+
+2. Рекомендація: Уникайте дублювання коду.
+Опис: Принцип DRY Don't Repeat Yourself) наголошує на тому, що не потрібно повторювати одну й ту саму логіку в різних місцях програми.
+Дублювання коду збільшує ризик помилок та ускладнює його оновлення, оскільки будь-яка зміна потребуватиме редагування кількох місць одночасно.
+
+1 # Поганий приклад
+2 def calculate_area_of_rectangle(length : Int32, width : Int32) : Int32
+3  length * width
+4 end
+5
+6 def calculate_area_of_square(side : Int32) : Int32
+7  side * side
+8 end
+9
+10 # Гарний приклад
+11 def calculate_area(shape : String, *dimensions : Int32) : Int32
+12  case shape
+13  when "rectangle"
+14    length, width = dimensions
+15    length * width
+16  when "square"
+17    side = dimensions.first
+18    side * side
+19  else
+20    raise ArgumentError.new("Unknown shape")
+21  end
+22 end
+
+3. Рекомендація: Дотримуйтеся єдиного стилю коду.
+Опис: Однією з важливих складових якісного коду є дотримання єдиного стилю оформлення. 
+Це стосується як форматування (відступи, пробіли, розриви рядків), так і загальних правил написання.
+
+1 # Поганий приклад
+2 def calculateTotalPrice(items)
+3 total = 0
+4 for item in items
+5  total += item.price
+6 end
+7 return total
+8 end
+9
+10 # Гарний приклад
+11 def calculate_total_price(items)
+12  total = 0
+13  items.each do |item|
+14    total += item.price
+15  end
+16  total
+17 end
+
+Висновок: У ході виконання практичного завдання досліджено історію виникнення та особливості мови Crystal, а також освоєно основні рекомендації 
+щодо написання чистого і зрозумілого коду для цієї мови.
+Посилання на відеозапис:
+Список використаних джерел:
+1. Фаулер Мартін. "Refactoring: Improving the Design of Existing Code"
+2. Мартін Роберт. "Clean Code: A Handbook of Agile Software Craftsmanship"
+3. Refactoring.Guru
+
+ДОДАТОК А
+/crystal/
+1 # Поганий приклад
+2 def calculateTotalPrice(items)
+3 total = 0
+4 for item in items
+5  total += item.price
+6 end
+7 return total
+8 end
+9
+10 # Гарний приклад
+11 def calculate_total_price(items)
+12  total = 0
+13  items.each do |item|
+14    total += item.price
+15  end
+16  total
+17 end
+
+ДОДАТОК Б
+
+Рисунок 1 – Титульний слайд
+Рисунок 2 – Вступ
+Рисунок 3 – 1. Рекомендація: Розбивайте великі методи на дрібні
+Рисунок 4 – 2. Рекомендація: Уникайте дублювання коду
+Рисунок 5 – 3. Рекомендація: Дотримуйтеся єдиного стилю коду
+Рисунок 6 – Приклад коду до 1 рекомендації
+Рисунок 7 – Приклад коду до 2 рекомендації
+Рисунок 8 – Приклад коду до 3 рекомендації
+Рисунок 9 – Висновки
+Рисунок 10 – Список використаних джерел
