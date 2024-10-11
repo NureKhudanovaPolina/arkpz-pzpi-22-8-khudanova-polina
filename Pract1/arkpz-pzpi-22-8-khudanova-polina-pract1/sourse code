@@ -1,0 +1,70 @@
+# Рекомендація 1
+# Поганий приклад
+def process_order(order_id : Int32)
+  puts "Processing order #{order_id}"
+  payment = PaymentService.new(order_id)
+  payment.process
+  send_email_to_customer(order_id)
+  update_inventory(order_id)
+end
+
+# Гарний приклад
+def process_order(order_id : Int32)
+  puts "Processing order #{order_id}"
+  process_payment(order_id)
+  notify_customer(order_id)
+  update_inventory(order_id)
+end
+
+def process_payment(order_id : Int32)
+  payment = PaymentService.new(order_id)
+  payment.process
+end
+
+def notify_customer(order_id : Int32)
+  send_email_to_customer(order_id)
+end
+
+
+# Рекомендація 2
+# Поганий приклад
+def calculate_area_of_rectangle(length : Int32, width : Int32) : Int32
+  length * width
+end
+
+def calculate_area_of_square(side : Int32) : Int32
+  side * side
+end
+
+# Гарний приклад
+def calculate_area(shape : String, *dimensions : Int32) : Int32
+  case shape
+  when "rectangle"
+    length, width = dimensions
+    length * width
+  when "square"
+    side = dimensions.first
+    side * side
+  else
+    raise ArgumentError.new("Unknown shape")
+  end
+end
+
+#Рекомендація 3
+# Поганий приклад
+def calculateTotalPrice(items)
+ total = 0
+ for item in items
+  total += item.price
+ end
+ return total
+end
+
+# Гарний приклад
+def calculate_total_price(items)
+  total = 0
+  items.each do |item|
+    total += item.price
+  end
+  total
+end
