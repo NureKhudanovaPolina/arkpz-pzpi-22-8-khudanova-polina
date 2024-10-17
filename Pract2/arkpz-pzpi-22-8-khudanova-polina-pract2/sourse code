@@ -1,0 +1,65 @@
+1. Метод «Extract Method».
+До рефакторингу:
+1 def calculate_invoice(items):
+2    total = 0
+3    for item in items:
+4        if item.category == 'book':
+5            total += item.price * 0.9  # 10% discount for books
+6        elif item.category == 'food':
+7            total += item.price * 0.8  # 20% discount for food
+8        else:
+9            total += item.price
+10    return total
+
+Після рефакторингу:
+1 def calculate_invoice(items):
+2    total = 0
+3    for item in items:
+4        total += calculate_discount(item)
+5    return total
+6
+7 def calculate_discount(item):
+8    if item.category == 'book':
+9        return item.price * 0.9
+10    elif item.category == 'food':
+11        return item.price * 0.8
+12    return item.price
+
+2. Метод «Rename Method».
+До рефакторингу:
+1 class Order:
+2     def c(self):
+3         if self.is_expedited:
+4             return self.total * 0.1
+5         return self.total * 0.05
+ 
+Після рефакторингу:
+1 class Order:
+2    def calculate_discount(self):
+3        if self.is_expedited:
+4            return self.total * 0.1
+5        return self.total * 0.05
+
+3. Метод «Replace Conditional with Polymorphism» .
+До рефакторингу:
+1 class Employee:
+2    def calculate_pay(self):
+3        if self.role == 'Manager':
+4            return self.salary + self.salary * 0.1  # бонус для менеджерів
+5        elif self.role == 'Developer':
+6            return self.salary + self.salary * 0.05  # бонус для розробників
+7        else:
+8            return self.salary
+
+Після рефакторингу:
+1 class Employee:
+2    def calculate_pay(self):
+3        return self.salary
+4
+5 class Manager(Employee):
+6    def calculate_pay(self):
+7        return self.salary + self.salary * 0.1
+8
+9 class Developer(Employee):
+10    def calculate_pay(self):
+11        return self.salary + self.salary * 0.05
