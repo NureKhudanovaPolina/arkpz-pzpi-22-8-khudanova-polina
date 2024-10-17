@@ -46,15 +46,15 @@
 14  notify_customer(order_id)
 15  update_inventory(order_id)
 16 end
-
-def process_payment(order_id : Int32)
-  payment = PaymentService.new(order_id)
-  payment.process
-end
-
-def notify_customer(order_id : Int32)
-  send_email_to_customer(order_id)
-end
+17
+18 def process_payment(order_id : Int32)
+19  payment = PaymentService.new(order_id)
+20  payment.process
+21 end
+22
+23 def notify_customer(order_id : Int32)
+24  send_email_to_customer(order_id)
+25 end
 
 2. Рекомендація: Уникайте дублювання коду.
 Опис: Принцип DRY Don't Repeat Yourself) наголошує на тому, що не потрібно повторювати одну й ту саму логіку в різних місцях програми.
@@ -107,7 +107,7 @@ end
 
 Висновок: У ході виконання практичного завдання досліджено історію виникнення та особливості мови Crystal, а також освоєно основні рекомендації 
 щодо написання чистого і зрозумілого коду для цієї мови.
-Посилання на відеозапис:
+Посилання на відеозапис: https://youtu.be/090l-82w5eA
 Список використаних джерел:
 1. Фаулер Мартін. "Refactoring: Improving the Design of Existing Code"
 2. Мартін Роберт. "Clean Code: A Handbook of Agile Software Craftsmanship"
