@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetTracker - Реєстрація та Авторизація</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>PetTracker</h2>
+
+        <!-- Реєстрація -->
+        <div class="form-container">
+            <h3>Реєстрація</h3>
+            <form id="registerForm">
+                <input type="text" id="username" placeholder="Ім'я користувача" required>
+                <input type="password" id="password" placeholder="Пароль" required>
+                <input type="number" id="userGroupId" placeholder="ID групи користувача" required>
+                <button type="submit">Зареєструватися</button>
+            </form>
+            <div class="error" id="registerError"></div>
+        </div>
+
+        <!-- Авторизація -->
+        <div class="form-container">
+            <h3>Авторизація</h3>
+            <form id="loginForm">
+                <input type="text" id="loginUsername" placeholder="Ім'я користувача" required>
+                <input type="password" id="loginPassword" placeholder="Пароль" required>
+                <button type="submit">Увійти</button>
+            </form>
+            <div class="error" id="loginError"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const userGroupId = document.getElementById('userGroupId').value;
+            
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password, userGroupId })
+                });
+                
+                const data = await response.json();
+                
+                if (response.status === 200) {
+                    alert('Користувач зареєстрований');
+                } else {
+                    document.getElementById('registerError').textContent = data.error || 'Помилка реєстрації';
+                }
+            } catch (error) {
+                document.getElementById('registerError').textContent = 'Помилка з\'єднання';
+            }
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.status === 200) {
+                    alert('Вхід успішний');
+                    // Можна перенаправити на іншу сторінку після входу, якщо потрібно
+                    // window.location.href = '/dashboard'; // приклад
+                } else {
+                    document.getElementById('loginError').textContent = data.error || 'Невірне ім\'я користувача або пароль';
+                }
+            } catch (error) {
+                document.getElementById('loginError').textContent = 'Помилка з\'єднання';
+            }
+        });
+    </script>
+
+</body>
+</html>
