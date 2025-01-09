@@ -1,0 +1,94 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "PetTracker API",
+    "version": "1.0.0",
+    "description": "API для реєстрації та авторизації користувачів, управління домашніми тваринами, здоров’ям та харчуванням"
+  },
+  "paths": {
+    "/register": {
+      "post": {
+        "summary": "Реєстрація користувача",
+        "description": "Реєстрація нового користувача",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "polina"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123456789"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "polina@example.com"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "+1234567890"
+                  }
+                },
+                "required": ["username", "password", "email"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Користувача успішно зареєстровано"
+          },
+          "400": {
+            "description": "Невірні дані"
+          },
+          "500": {
+            "description": "Помилка на сервері"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "Логін користувача",
+        "description": "Логін користувача в систему",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "polina"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123456789"
+                  }
+                },
+                "required": ["username", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успішний вхід"
+          },
+          "400": {
+            "description": "Невірні дані"
+          },
+          "500": {
+            "description": "Помилка на сервері"
+          }
+        }
+      }
+    }
+  }
+}
